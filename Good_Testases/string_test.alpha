@@ -1,0 +1,34 @@
+m4_include(library.alpha)
+
+function print_string : string2integer 
+
+function println_string : string2integer 
+
+println_string(s) := {
+  [integer:x; integer: do_not_care]
+  x := print_string(s);
+  do_not_care := printCharacter('\n');
+  return x + 1;
+}
+
+print_string(s) := {
+  [integer:i; integer:_]
+  i := 0;
+  while (i < s._1) {
+      [character:c]
+      c := s(i);
+      _ := printCharacter(c);
+      i := i + 1;
+  }
+  return s._1;
+}
+ 
+entry(arg) := {
+  [
+    integer:_0;
+    address:_1;
+    Boolean: b
+  ] 
+  _0 := print_string("This is a string\n\tcontaining \"escaped\" characters:\n");
+  return 0;
+}

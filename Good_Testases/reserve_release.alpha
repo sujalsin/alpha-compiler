@@ -1,0 +1,15 @@
+m4_include(library.alpha)
+
+type array: 1 -> integer
+type point: [integer:x; integer:y]
+
+entry(arg) := {
+	[ 
+        array: arr; 
+        point: p;
+        integer: i
+    ]
+    p := reserve p;
+    i := release p;
+    return 0;
+}

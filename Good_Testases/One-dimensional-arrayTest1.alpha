@@ -1,0 +1,34 @@
+m4_include(library.alpha)
+
+type rec: [integer: x; integer: y]
+type nested_rec: [rec: r; integer: x]
+type array: 1 -> string
+
+type string2int: string -> integer
+
+function entry : string2int
+
+entry(arg) := {
+	[ integer: result ; nested_rec: w; rec: x; address: _1; array: arr; integer: _0]
+
+
+    arr := reserve arr(10);
+    arr(0) := 10;
+    arr(1) := 1;
+    result := arr(0);
+    arr(3) := arr(1);
+    result := printInteger(arr(3));
+    result := printCharacter('\n');
+    result := 0;
+
+    while (result < 10) {
+        arr(result) := 2;
+        result := result + 1;
+        _0 := printInteger(result);
+        _0 := printCharacter('\n');
+    }
+    result := printInteger(arr(3));
+    result := printCharacter('\n');
+
+    return 0;
+}

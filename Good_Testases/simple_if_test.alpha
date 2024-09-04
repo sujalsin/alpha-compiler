@@ -1,0 +1,35 @@
+m4_include(library.alpha)
+
+type rec: [integer: x; integer: y]
+type nested_rec: [rec: r; integer: x]
+type array: 1 -> string
+
+type string2int: string -> integer
+
+function entry : string2int
+
+entry(arg) := {
+	[ integer: result ; integer: i; integer: _0; string: s; Boolean: b]
+
+    s := "Hello World";
+
+    _0 := printInteger(s._1);
+    _0 := printCharacter('\n');
+    _0 := printCharacter(s(10));
+    _0 := printCharacter('\n');
+
+    result := 10;
+    i := 5;
+    b := result < i;
+    _0 := printBoolean(b);
+    if (i < result) then {
+        _0 := printInteger(result);
+        _0 := printCharacter('\n');
+        result := result + 1;
+        _0 := 1;
+    } else {
+        _0 := printInteger(i);
+    }
+    _0 := printInteger(result);
+    return _0;   
+}

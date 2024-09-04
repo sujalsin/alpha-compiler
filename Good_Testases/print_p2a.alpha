@@ -1,0 +1,72 @@
+m4_include(library.alpha)
+
+
+(* Type definitions *)
+
+
+type int2int: integer -> integer 
+type string2int: string -> integer
+
+type rec: [integer: x; integer: y]
+
+
+(* Function prototypes
+   They use the above type definitions
+*)
+
+function cube : int2int
+function square : int2int 
+function entry : string2int
+
+
+(* Function definition
+   Functions must be declared before they are defined
+*)
+ 
+square(x) := {
+  return x * x;
+}
+ 
+cube(x) := {
+  [ integer: intermediate;
+    integer: _r
+  ]
+  intermediate := square(x);
+  _r := printInteger(intermediate);
+  _r := printCharacter('\n');
+  intermediate := intermediate * x;
+  _r := printInteger(intermediate);
+  _r := printCharacter('\n');
+  return intermediate;
+}
+
+
+(* Function definition
+   entry is the first function called
+*)
+ 
+entry(arg) := {
+  [
+    integer: input;
+    integer: expected; 
+    integer: actual; 
+    Boolean: result;
+    integer: _d
+  ] 
+  _d := printBoolean(true);
+  _d := printCharacter('\n');
+  input := 7;
+  _d := printInteger(input);
+  _d := printCharacter('\n');
+  actual := square(input);
+  _d := printInteger(actual);
+  _d := printCharacter('\n');
+  expected := 49;
+  _d := printInteger(expected);
+  _d := printCharacter('\n');
+  result := expected = actual;
+  _d := printBoolean(result);
+  _d := printCharacter('\n');
+  _d := cube(input);
+  return 0;
+}

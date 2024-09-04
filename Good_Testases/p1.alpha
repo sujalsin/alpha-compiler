@@ -1,0 +1,11 @@
+(* Type definitions *)
+type string: 1 -> character
+type string2int: string -> integer
+
+(* Function prototypes
+*)
+function entry : string2int
+
+entry(arg) := {
+    return 0;
+}

@@ -1,0 +1,104 @@
+m4_include(library.alpha)
+
+type rec: [integer: x; integer: y]
+type nested_rec: [rec: r; integer: x]
+type T1: integer -> integer
+type T2: rec -> integer
+type string: 1 -> character
+type arr: 3 -> integer
+type string2int: string -> integer
+
+function foo : T1
+function bar1 : T2
+function bar2 : T2
+function entry : string2int
+
+foo(x) := {
+	return x * x;
+}
+
+bar1(a) := {
+	return a.x * a.y;
+}
+
+bar2 as (r,s) := {
+	[	integer: i; 
+		Boolean: bif; 
+		Boolean: belse; 
+		Boolean: bwhile ]
+
+	i := 0;
+	bif := true;
+	belse := ! bif;
+	bwhile := bif;
+
+	while (bwhile) {
+		[	integer: max;
+			integer: cap ]
+		max := 5;
+		cap := 10;
+		if (i < max) then {
+            [ integer: x ]
+			i := i + 1;
+		} else {
+			i := cap;
+			bwhile := false;
+		}
+	}
+	return r * s;
+}
+
+entry(arg) := {
+	[ integer: i ; Boolean: b ; character: c]
+    
+    i := 1;
+    i := 1+1;
+    i := 1-1;
+    i := 1*1;
+    i := 1/1;
+    i := 1%1;
+    i := 1&1; (*expected type Boolean, returns type Boolean*)
+    i := 1|1; (*expected type Boolean, returns type Boolean*)
+    i := 1<1; (*returns type Boolean*)
+    i := 1=1; (*reterns type Boolean*)
+    i := !1; (*expected type Boolean, returns type Boolean*)
+    i := -1;
+    
+    
+    b := true;
+    b := true+true; (*expected type integer, returns type integer*)
+    b := true-true; (*expected type integer, returns type integer*)
+    b := true*true; (*expected type integer, returns type integer*)
+    b := true/true; (*expected type integer, returns type integer*)
+    b := true%true; (*expected type integer, returns type integer*)
+    b := true&true;
+    b := true|true;
+    b := true<true;
+    b := true=true;
+    b := !true;
+    b := -true; (*expected type integer, returns type integer*)
+    
+    
+    c := 'a';
+    c := 'a'+'a'; (*expected type integer, returns type integer*)
+    c := 'a'-'a'; (*expected type integer, returns type integer*)
+    c := 'a'*'a'; (*expected type integer, returns type integer*)
+    c := 'a'/'a'; (*expected type integer, returns type integer*)
+    c := 'a'%'a'; (*expected type integer, returns type integer*)
+    c := 'a'&'a'; (*expected type Boolean, returns type Boolean*)
+    c := 'a'|'a'; (*expected type Boolean, returns type Boolean*)
+    c := 'a'<'a'; (*reterns type Boolean*)
+    c := 'a'='a'; (*reterns type Boolean*)
+    c := !'a'; (*expected type Boolean, returns type Boolean*)
+    c := -'a'; (*expected type integer, returns type integer*)
+
+
+    i := 1+1+1+1+1+1;
+    i := 1+1%1/1*1-1;
+    i := 1&1%1<1*1|1;
+    b := 1&1|1|1<1&1=1;
+    b := true&true|true|true<true&true=1;
+
+
+	return 0;
+}

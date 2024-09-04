@@ -1,0 +1,21 @@
+m4_include(library.alpha)
+
+entry(arg) := {
+	[integer: _dc; integer: int_to_print; character: newline] 
+   newline := '\n';
+    
+   int_to_print := 5 + 5 * 2;
+ 	_dc := printInteger(int_to_print);
+   _dc := printCharacter(newline);
+
+   int_to_print := 5 * 3;
+ 	_dc := printInteger(int_to_print);
+   _dc := printCharacter(newline);
+
+   int_to_print := 4 + (3 + 2 * 5) * 2;
+ 	_dc := printInteger(int_to_print);
+   _dc := printCharacter(newline);
+
+
+	return 0;
+}

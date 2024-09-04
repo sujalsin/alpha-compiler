@@ -1,0 +1,17 @@
+m4_include(library.alpha)
+
+type array: 1 -> string
+
+entry(arg) := {
+	[ integer: result ; integer: i; integer: _0]
+
+    result := 0;
+    i := 0;
+    while (i < 3) {
+        result := result + 3;
+        i := i + 1;
+    }
+    _0 := printInteger(result);
+
+    return 0;
+}

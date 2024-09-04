@@ -1,0 +1,10 @@
+m4_include(library.alpha)
+
+entry(arg) := {
+    [character: x]
+    x := 'c';
+    x := 'n';
+    x := '\n';
+    x := '\t';
+    return 0;
+}

@@ -1,0 +1,42 @@
+m4_include(library.alpha)
+
+type intArray: 1 -> integer
+
+type arr1: 2 -> integer
+
+entry(arg) := {
+	[intArray: array; integer: _dc; integer: int_to_print; character: newline; arr1: a1] 
+
+	array := reserve array(10);          (* Create an array of 10 *)
+    newline := '\n';
+
+	a1 := reserve a1(10, 10);
+	_dc := printInteger(a1._0);
+	_dc := printCharacter(newline);
+
+	_dc := printInteger(a1._1);
+	_dc := printCharacter(newline);
+
+	_dc := printInteger(a1._2);
+	_dc := printCharacter(newline);
+
+	int_to_print := array._0;
+	_dc := printInteger(int_to_print);
+    _dc := printCharacter(newline);
+
+	int_to_print := array._1;
+	_dc := printInteger(int_to_print);
+    _dc := printCharacter(newline);
+
+    array(0) := 5;
+    array(1) := 10;
+    array(2) := 20;
+
+ 	_dc := printInteger(array(0));  
+    _dc := printCharacter(newline);
+ 	_dc := printInteger(array(1)); 
+    _dc := printCharacter(newline);  
+ 	_dc := printInteger(array(2));
+    _dc := printCharacter(newline);
+	return 0;
+}

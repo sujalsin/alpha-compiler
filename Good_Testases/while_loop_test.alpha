@@ -1,0 +1,24 @@
+m4_include(library.alpha)
+
+entry(arg) := {
+  [integer: a; integer: b; integer: c; Boolean: d]
+
+  a := 10;
+  b := 20;
+  c := 1;
+  d := printBoolean(true);
+  d := printBoolean(false);
+  if (b < a) then {
+    d := printBoolean(true);
+  } else {
+    d := printBoolean(false);
+  }
+  d := printCharacter('\n');
+  while (a < b) {
+    c := c + 1;
+    d := printInteger(c);
+    a := a + 1;
+    d := printCharacter('\n');
+  }
+  return c;
+}

@@ -1,0 +1,16 @@
+m4_include(library.alpha)
+
+(* Type definitions *)
+type string2int: string -> integer
+
+(* Function prototypes
+*)
+function entry : string2int
+
+entry(arg) := {
+    [integer: _d]
+    _d := printInteger(0);
+    _d := printCharacter('\n');
+    return 0;
+}
+
