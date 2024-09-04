@@ -1,113 +1,77 @@
-alpha: parser
-	rm -f parser.tab.c parser.tab.h parser.output lex.yy.c
+# Alpha Language Compiler
+## CSE 443 Compilers Carl Alphonce
+### Matthew Liddiard, Sujal Singh, Tyler D'Angelo, Volodymyr Semenov
+### PM: Nitin Pai
 
-parser: parser.tab.c lex.yy.c symbolTable.c ICG.c
-	gcc -std=c11 -Wall -g -o alpha parser.tab.c lex.yy.c symbolTable.c ICG.c semantics.c cg.c
+## Project Overview:
+Takes an Alpha language program and compiles it into x86-64 assembly language code.
 
-#-ferror-limit=1000
+## Sprint 1:
+#### Lexical Analyzer - 
+Takes an Alpha language program file and converts the text into tokens using Flex.
+#### Syntax Analyzer - 
+Takes the tokens from the lexical analyzer and ensures the program is grammatically correct using Bison.
+#### Integrated Analyzer - 
+Combines the lexical and syntax analyzers into a unified compiler.
 
-parser.tab.c: parser.y
-	bison -d -v parser.y -Wcounterexamples
+### How to use:
+#### Lexical Analyzer
+> `make lexer_sa`  
+> `./lexer input_filename.alpha output_filename.tok`
 
-lex.yy.c: lexer.l
-	flex lexer.l
+#### Syntax Analyzer
+This step is integrated into the overall compiler.
 
-# Clean
-clean:
-	rm -f lex.yy.c lexer
-	rm -f parser.tab.c parser.tab.h parser.output alpha 
-	rm -f st_test
-	rm -f pp.txt
-	rm -f *.tok
-	rm -f *.st
-	rm -f *.asc
-	rm -f *.tc
-	rm -f *.ir
-	rm -f *.s
+#### Integrated Analyzer
+> `make compiler`  
+> `./alpha test_source_code/test_input1.alpha`
 
-# Standalone SymbolTable Testing file
-st_test: st_sa
-	./st_test
+## Sprint 2:
+#### Semantic Analyzer - 
+Performs type checking and ensures that the program adheres to the semantic rules of the Alpha language.
+#### Symbol Table - 
+Manages scope and bindings for variables, functions, and types throughout the compilation process.
+#### Intermediate Code Generation (ICG) - 
+Generates an intermediate representation (IR) of the program that is easier to translate into assembly code.
 
-st_sa:
-	gcc -std=c11 -Wall -o st_test symbolTableTest.c  symbolTable.c
+### How to use:
+#### Semantic Analyzer and Symbol Table
+The Semantic Analyzer and Symbol Table are part of the main compilation process.
+> `./alpha -st -tc test_source_code/test_input1.alpha`
 
-st_test_input:
-	./alpha -st -tc test_source_code/test_input1.alpha
-	./alpha -st -tc test_source_code/test_input2.alpha
-	./alpha -st -tc test_source_code/test_input3.alpha
-	./alpha -st -tc test_source_code/test_input4.alpha
-	./alpha -st -tc test_source_code/test_input5.alpha
-	./alpha -st -tc test_source_code/test_record.alpha
-	./alpha -st -tc test_source_code/test_array.alpha
-	./alpha -st -tc test_source_code/test_operations.alpha
+#### Intermediate Code Generation (ICG)
+> `make icg`  
+> `./alpha test_source_code/test_input2.alpha -ir`
 
-st_test_p:
-	./alpha -st -tc test_source_code/p0.alpha
-	./alpha -st -tc test_source_code/p1.alpha
-	./alpha -st -tc test_source_code/p2.alpha
-	./alpha -st -tc test_source_code/p3.alpha
+## Sprint 3:
+#### Code Generation - 
+Translates the intermediate representation into x86-64 assembly language code.
+#### Optimizations - 
+Performs basic optimizations to improve the performance of the generated code.
 
-st_test_e:
-	./alpha -st -tc test_source_code/e0.alpha
-	./alpha -st -tc test_source_code/e1.alpha
-	./alpha -st -tc test_source_code/e2.alpha
-	./alpha -st -tc test_source_code/e3.alpha
-	./alpha -st -tc test_source_code/e4.alpha
+### How to use:
+#### Code Generation
+> `make code_gen`  
+> `./alpha test_source_code/test_input3.alpha -cg`
 
-# Makefile to make executables from alpha source code files
-# and also make executables from some sample assembly files execising the alpha library
-#
-# Carl Alphonce
-# April 20, 2024
+#### Optimizations
+Included as part of the code generation process.
 
-# The alpha compiler and flags (adjust the flags as needed)
-AC := ./alpha
-AFLAGS := -tok -asc -tc -st -ir -cg
+## Sprint 4:
+#### Final Integration - 
+Integrates all the components (Lexical, Syntax, Semantic Analyzers, ICG, Code Generation, and Optimizations) into a single, fully functional compiler.
+#### Testing and Validation - 
+Runs a comprehensive suite of tests to validate the compiler's correctness and efficiency.
 
-# The preprocessor and flags (you should not adjust these)
-CPP := cpp
-CPPFLAGS := -P -x c
+### How to use:
+#### Final Integrated Compiler
+> `make compiler`  
+> `./alpha test_source_code/final_test_input.alpha`
 
-# Adjust for the library your team is using (register-based or stack-based parameter passing)
+#### Running Test Cases
+> `make st_test_input`  
+> `make st_test_p`  
+> `make st_test_e`
 
-#ALPHA_LIB = alpha_lib_reg.s   ## Register-based parameter passing
-ALPHA_LIB = alpha_lib_st/alpha_lib_st.s     ## Stack-based parameter passing
-
-# Adjust for the parameter passing approach your compiler uses:
-#   alpha_driver_reg.s for register-based parameter passing
-#   alpha_driver_st.s for stack-based parameter passing
-# This file provides a main function that packages up argv[1] (or "") as an alpha string
-# (type 1->character) and calls entry with that argument
-
-#ALPHA_DRIVER = alpha_driver_reg.s   ## Register-based parameter passing
-ALPHA_DRIVER = alpha_lib_st/alpha_driver_st.s     ## Stack-based parameter passing
-
-
-# Create an assembly (.s) file from an alpha source file
-# This involves several steps:
-%.s : %.alpha alpha 
-	./alpha -tok -asc -tc -st -ir -cg $<
-
-# Examples of assembly code using the alpha library files
-# In these examples the calling code is in assembly, and defines main (so the driver is not included here)
-
-# Example #1: calling the printBoolean function
-printBoolean : printBoolean_st.s
-	@gcc $< $(ALPHA_LIB) -no-pie -o $@
-
-# Example #2: calling the printInt function
-printInt : printInt_st.s
-	@gcc $< $(ALPHA_LIB) -no-pie -o $@
-
-# Example #3: calling the reserve and release functions
-reserve_release : reserve_release_st.s
-	@gcc $< $(ALPHA_LIB) -no-pie -o $@
-
-
-# The rule for assembling .s files and linking them together (using the gcc compiler driver)
-# to produce an executable (assuming no earlier make rule triggers first)
-
-% : %.s $(ALPHA_LIB) $(ALPHA_DRIVER) 
-	@gcc $< $(ALPHA_LIB) $(ALPHA_DRIVER) -no-pie -o $@
-
+## Additional Information:
+For more details, refer to the Alpha language specification document and the provided test cases in the `test_source_code/` directory.
