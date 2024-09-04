@@ -1,0 +1,104 @@
+#include "library.alpha"
+
+
+(* Type definitions *****************************************)
+
+type point:[integer:x ; integer:y]
+type point2int: point -> integer
+
+
+(* Function prototypes **************************************
+   They use the above type definitions
+*)
+
+(* prints a string *)
+function print_string : string2integer
+
+(* prints a string followed by a newline character *)
+function println_string : string2integer
+
+(* prints a point *)
+function print_point_1 : point2int 
+
+(* also prints a point - but see definition for use of 'as' clause *)
+function print_point_2 : point2int 
+
+
+(* Function definitions *************************************
+   Functions must be declared before they are defined
+*)
+ 
+println_string(s) := {
+  [integer:x; integer: do_not_care]
+  x := print_string(s);
+  do_not_care := printCharacter('\n');
+  return x + 1;
+}
+
+print_point_1(pt) := {
+  [integer:z]
+      z := printCharacter('(');
+      z := printInteger(pt.x);
+      z := printCharacter(',');
+      z := printInteger(pt.y);
+      z := printCharacter(')');
+
+  return 0;
+}
+
+print_point_2 as (a,b,c) := {
+  [integer:z]
+      z := printCharacter('(');
+      z := printInteger(a);
+      z := printCharacter(',');
+      z := printInteger(b);
+      z := printCharacter(')');
+
+  return 0;
+}
+
+print_string(s) := {
+  [integer:i; integer:_]
+  i := 0;
+  while (i < s._1) {
+      [character:c]
+      c := s(i);
+      _ := printCharacter(c);
+  }
+  return s._1;
+}
+
+
+(* Function definition **************************************
+   entry is the first function called
+*)
+ 
+entry(arg) := {
+  [
+    point: p;
+    integer:_0;
+    address:_1;
+    Boolean: b
+  ] 
+  _ := println_string("This is a string\n\tcontaining \"escaped\" characters:\n");
+  _ := println_string(arg);
+  p := reserve p;
+  p.x := 5;
+  p.y = -7;
+  _0 := print_point_1(p);
+  _0 := printCharacter('\n');
+  _0 := print_point_2(p);
+  _0 := printCharacter('\n');
+  b := true;
+  _0 := printBoolean(false);
+  _0 := printBoolean(b);
+  _1 := release p;  
+  return 0;
+}
+
+(* Error:
+Line 49 print_point_2 has wrong number of parameters in 'as' clause (3 as opposed to 2)
+Line 83 84 _ not Defined
+Line 87 syntax error = instead of :=
+Line 90 print_point_2 is packed
+*)

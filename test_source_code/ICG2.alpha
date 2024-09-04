@@ -1,0 +1,18 @@
+#include "library.alpha"
+
+(*type string: 1 -> character*)
+type string2int: string -> integer
+function entry : string2int
+
+entry(arg) := {
+  [integer: a; integer: b; integer: c; Boolean: d; Boolean: e; address: f; character: g; string: h]
+  a := -5 * 27;
+  b := 55 / 5;
+  c := (a * a) + ((a / a) + b) - 10;
+  d := true;
+  e := false;
+  g := 'a';
+  h := "abcd";
+  f := null;
+  return c;
+}

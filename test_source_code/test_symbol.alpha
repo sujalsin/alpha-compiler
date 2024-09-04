@@ -1,0 +1,3 @@
+type rec : [integer : x; integer : y]
+type rec2int : rec -> integer
+function temp : recToint

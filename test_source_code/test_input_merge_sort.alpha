@@ -1,0 +1,23 @@
+#include "library.alpha"
+
+type intArray: 1 -> integer
+type mergeSortParameters: [
+	intArray: array; 
+	Boolean: reversed
+]
+type mergeSortType: mergeSortParameters -> integer 
+function mergeSort: mergeSortType
+mergeSort as (array, reversed) := {
+	return 0;
+}
+
+entry(arg) := {
+	[intArray: array; mergeSortParameters: params; integer: _dc] 
+	array := reserve array(10); (* Create an array of 10 *)
+	params := reserve params;
+	params.reversed := false;
+	params.array := array;
+	_dc := array._0;
+	_dc := array._1;
+	return 0;
+}

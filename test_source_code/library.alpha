@@ -1,0 +1,77 @@
+(*
+
+   At compiler start-up your program should
+   create symbol table entries for the four
+   primitive types:
+       Boolean    (1 byte)
+       character  (1 byte)
+       integer    (4 bytes)
+       address (8 bytes)
+
+   You should be #include this file at the
+   start of your alpha file.
+
+   Some useful types are defined below.
+   
+*)
+
+
+
+type string: 1 -> character
+
+type BooleanXBoolean: [Boolean: x; Boolean: y]
+type characterXcharacter: [character: x; character: y]
+type integerXinteger: [integer: x; integer: y]
+
+type Boolean2Boolean: Boolean -> Boolean
+type integer2integer: integer -> integer
+
+type character2integer: character -> integer
+type Boolean2integer: Boolean -> integer
+type string2integer: string -> integer
+
+type integerXinteger2integer: integerXinteger -> integer
+
+type integerXinteger2Boolean: integerXinteger -> Boolean
+type characterXcharacter2Boolean: characterXcharacter -> Boolean
+type BooleanXBoolean2Boolean: BooleanXBoolean -> Boolean
+
+
+type integer2address: integer -> address
+type address2integer: address -> integer
+
+
+(* The alpha library functions
+   You will be provided with x86-64 assembly
+   code implementations of these.
+*)
+   
+external function printInteger: integer2integer
+external function printCharacter: character2integer
+external function printBoolean: Boolean2integer
+
+external function reserve: integer2address
+external function release: address2integer
+
+
+(*
+   A declaration of the entry point function for your program
+
+   You may assume that when starting this function will behave as if
+   it had been called from the C language main function like this:
+
+   int main(int argc, char * argv[]) {
+       if (argc == 1) {
+           return entry(NULL);
+       }
+       else {
+       	    return entry(makeAlphaString(argv[1]));
+       }
+   }
+
+   for some suitable definition of makeAlphaString which creates
+   an alpha string representation of its argument C string in memory
+   and returns a pointer to that alpha string.
+*)
+
+function entry: string2integer

@@ -1,0 +1,44 @@
+(* Type definitions *)
+
+type string: 1 -> character
+
+type int2int: integer -> integer 
+type string2int: string -> integer
+
+type rec: [integer: x; integer: y]
+
+
+(* Function prototypes
+   They use the above type definitions
+*)
+
+function square : int2int 
+function entry : string2int
+
+
+(* Function definition
+   Functions must be declared before they are defined
+*)
+ 
+square(x) := {
+  return x * x;
+}
+
+
+(* Function definition
+   entry is the first function called
+*)
+ 
+entry(arg) := {
+  [
+    integer: input;
+    integer: expected; 
+    integer: actual; 
+    Boolean: result
+  ] 
+  input := 7;
+  expected := 49;
+  actual := square(input);
+  result := expected = actual;
+  return 0;
+}

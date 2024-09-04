@@ -1,0 +1,19 @@
+#include "library.alpha"
+
+(*type string: 1 -> character*)
+type string2int: string -> integer
+function entry : string2int
+
+entry(arg) := {
+  [integer: x; integer: y; integer: d]
+  x := 0;
+  y := 0;
+  if ((x < 100) | (200 < x)) then {
+    d := x+y;
+  } else {
+    d := x-y;
+  }
+  return d;
+}
+
+(*   if ((x < 100) | (200 < x)) then {}  *)

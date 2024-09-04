@@ -1,0 +1,18 @@
+#include "library.alpha"
+
+(*type string: 1 -> character*)
+type string2int: string -> integer
+function entry : string2int
+
+entry(arg) := {
+  [integer: a; integer: b; integer: c; integer: d; string: s; Boolean: k; Boolean: f; Boolean: j]
+  if (!(a < b)) then {
+    d := a+c;
+  } else {
+    d := b+c;
+  }
+  while (a < b) {
+    c := c + 1;
+  }
+  return c;
+}

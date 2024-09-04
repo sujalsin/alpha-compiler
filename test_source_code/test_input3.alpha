@@ -1,0 +1,70 @@
+#include "library.alpha"
+
+type rec: [integer: x; integer: y]
+type T1: integer -> integer
+type T2: rec -> integer
+
+function foo : T1
+function bar1 : T2
+function bar2 : T2
+
+foo(x) := {
+ return x * x;
+}
+
+bar1(a) := {
+ return a.x * a.y;
+}
+
+bar2 as (r, s) := {
+ return -1 * r * s * -1;
+}
+
+entry(arg) := {
+	[ integer: result; rec: w ]
+
+ 	result := foo(5);
+
+ 	w := reserve w; 
+ 	w.x := 5;
+ 	w.y := 7;
+
+    result := bar1(w);
+
+    result := bar2(5, 7);
+
+    result := result + 1;
+
+    if (10 < result) then {
+        result := result - 10;
+    } else {
+        result := result + 10;
+    }
+
+    while (result < 20) {
+        result := result + 1;
+    }
+
+    result := 10 / 10;
+
+    result := 10 % 10;
+
+    result := 10 | 10;
+
+    result := 10 & 10;
+
+    w.x := w.x + 10;
+    w.y := w.y - 5;
+
+    if (w.x < w.y) then {
+        result := w.x;
+    } else {
+        result := w.y;
+        if (10 < result) then {
+            result := result - 10;
+        } else {
+            result := result + 10;
+        }
+    }
+    return 0;
+}

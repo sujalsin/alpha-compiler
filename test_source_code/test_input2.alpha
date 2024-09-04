@@ -1,0 +1,42 @@
+#include "library.alpha"
+
+(* see types.alpha – reserve returns a value of type address,
+ 	which can be assigned to array and record variables
+ 	*)
+(* implicitly build a rec type value, assign 5 and 7 to fields x and y, but call them r and s *)
+(* pass w (a rec type value) to bar1 *)
+
+type rec: [integer: x; integer: y]
+type T1: integer -> integer
+type T2: rec -> integer
+
+function __foo : T1
+function bar1 : T2
+function bar2 : T2
+
+__foo(x) := {
+ return x * x;
+}
+
+bar1(a) := {
+ return a.x * a.y;
+}
+
+bar2 as (r,s) := {
+ return r * s;
+}
+
+
+entry(arg) := {
+	[ integer: result ; rec: w]
+ 	result := foo(5);
+ 	w := reserve w;
+ r := "I'd think this is a legal \"string\" that contains \n \t several escaped characters, isn't it?";
+ w.x := 5;
+ w.y := 7;
+ 
+result := bar1(w);
+ result := bar2(5,7);
+
+ return 0;
+}

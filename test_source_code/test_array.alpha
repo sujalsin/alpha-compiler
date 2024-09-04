@@ -1,0 +1,62 @@
+#include "library.alpha"
+
+type rec: [integer: x; integer: y]
+type nested_rec: [rec: r; integer: x]
+type T1: integer -> integer
+type T2: rec -> integer
+type string: 1 -> character
+type arr1: 1 -> integer
+type arr2: 2 -> integer
+type arr3: 3 -> integer
+type arrarr: 1 -> arr1
+type string2int: string -> integer
+
+function foo : T1
+function bar1 : T2
+function bar2 : T2
+function entry : string2int
+
+foo(x) := {
+	return x * x;
+}
+
+entry(arg) := {
+	[ integer: result ; rec: w ; arr3: array3 ; arr2: array2 ; arr1: array1 ; arrarr: rr]
+
+ 	result := foo(5);
+
+ 	w := reserve w; 
+	(* see types.alpha – reserve returns a value of type address,
+ 	which can be assigned to array and record variables
+ 	*)
+
+	result := array3(1,2,3);
+	result := array3(1,2,3,4); (*too many args*)
+	result := array3(1,2); (*too few args*)
+	result := array3(x,y,z); (*variables not declared*)
+	result := array3(w.x,w.y,3); 
+	result := array3(w,3); (*arg is type rec, too few args*)
+
+	result := array2(1); (*too few args*)
+	result := array2(1,2);
+	result := array2(1,2,3); (*too many args*)
+
+	result := array1(1);
+	result := array1(1,2); (*too many args*)
+
+    array1 := rr(10);
+    array1 := rr(1,1); (*too many args*)
+
+    result := array1._1;
+    result := array1._2; (*out of bounds*)
+    result := array2._1;
+    result := array2._2;
+    result := array2._3; (*out of bounds*)
+    result := array3._1;
+    result := array3._2;
+    result := array3._3;
+    result := array3._4; (*out of bounds*)
+    result := w._1; (*not an array*)
+
+	return 0;
+}
