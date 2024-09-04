@@ -1,0 +1,11 @@
+m4_include(library.alpha)
+
+type array: 1 -> string
+
+entry(arg) := {
+	[ integer: result ; integer: i; integer: _0]
+
+    _0 := printInteger((4 ++ 5));
+
+    return 0;
+}

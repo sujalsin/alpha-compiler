@@ -1,0 +1,21 @@
+m4_include(library.alpha)
+
+(*type string: 1 -> character*)
+type string2int: string -> integer
+function entry : string2int
+
+entry(arg) := {
+  [integer: a; integer: b; integer: c; integer: d]
+
+  a := 10;
+  b := 20;
+  c := 1;
+
+  if (false < true) then {
+    d := printBoolean(true);
+  } else {
+    d := printBoolean(false);
+  }
+
+  return c;
+}

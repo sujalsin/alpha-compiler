@@ -1,0 +1,19 @@
+(* Type definitions *)
+type string: 1 -> character
+type string2int: string -> integer
+
+(* Function prototypes
+*)
+function entry : string2int
+
+entry(arg) = {
+    return true;
+}
+
+(* Errors:
+ = rather than :=
+ type error in return (should be integer)
+ incorrect closing comment delimiter in
+ this comment block
+ * )
+ 
