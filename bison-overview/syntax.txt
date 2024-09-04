@@ -1,0 +1,68 @@
+%{
+  Prologue
+%}
+Bison declarations
+%%
+Grammar rules
+%%
+Epilogue
+Bison grammar files have the above formatting
+If the epilogue is excluded, the later %% may be left out as well
+
+
+Use "%start <rule>" to denote the starting rule of the grammar
+
+
+Use "%union{<type> <var>; <type> <var>;};" to denote what each token represents (like a struct)
+Can use "%token <var> <identifier>" to specify whether bison treats the terminal as 
+    - var must be one of the variables from the %union (and it must be in <>)
+
+
+Use "%token <identifier>" to denote the terminals
+Use "%define <IDENTIFIER> <value>" to assign a value to a terminal
+
+
+The order terminal tokens are written determines their precedence
+EXAMPLE: x <ID> y <ID> z
+In the example rule, <ID> could represent multiple different operators
+Use "%left <IDENTIFIER>" to specify that if <IDENTIFIER> is the <ID> on the left, 
+        x <IDENTIFIER> y takes precedence over y <ID> z
+Use "%right <IDENTIFIER>" to specify that if <IDENTIFIER> is the <ID> on the right, 
+        y <IDENTIFIER> z takes precedence over x <ID> y
+Use "%nonassoc <IDENTIFIER>" to specify that <IDENTIFIER> does not apply to the EXAMPLE rule,
+        if this <IDENTIFIER> was found in the above rule, it would return an error,
+Use "%token <IDENTIFIER1> <IDENTIFIER2>" to specify that both identifiers have the same precedence
+Use "%prec <FALSE_IDENTIFIER>" to use the same symbol for different meanings with different precedences
+    %nonassoc <NEGATIVE>
+    %left <IDENTIFIER> 'a'
+    %left <SUB_OR_NEG> '-'
+    EXAMPLE: x <SUB_OR_NEG> y | <SUB_OR_NEG> x %prec <NEGATIVE>;
+
+
+Grammar rules use the following syntax:
+<rule>: <rule> <identifier> | <identifier>;
+I would use the following formatting to make it easier to read the rules at a glance:
+<rule>:
+  <rule> <IDENTIFIER>
+| <IDENTIFIER>
+;
+non-terminals are written in lowercase, TERMINALS are written in uppercase
+In rules, extra whitespace does not matter
+    - Any number of spaces, tabs, or new lines do not make a difference
+
+
+
+
+Bison manual: https://www.gnu.org/software/bison/manual/html_node/index.html
+    Bison grammar files: https://www.gnu.org/software/bison/manual/html_node/Grammar-File.html
+        Outline of a Bison grammar file: https://www.gnu.org/software/bison/manual/html_node/Grammar-Outline.html
+            Prologue: https://www.gnu.org/software/bison/manual/html_node/Prologue.html
+            Prologue alternatives: https://www.gnu.org/software/bison/manual/html_node/Prologue-Alternatives.html
+            Declarations: https://www.gnu.org/software/bison/manual/html_node/Bison-Declarations.html
+            Grammar rules: https://www.gnu.org/software/bison/manual/html_node/Grammar-Rules.html
+            Epilogue: https://www.gnu.org/software/bison/manual/html_node/Epilogue.html
+        Grammar rules: https://www.gnu.org/software/bison/manual/html_node/Rules.html
+            Syntax: https://www.gnu.org/software/bison/manual/html_node/Rules-Syntax.html
+            Empty rules: https://www.gnu.org/software/bison/manual/html_node/Empty-Rules.html
+            Recursive rules: https://www.gnu.org/software/bison/manual/html_node/Recursion.html
+    Context dependent precedence: https://www.gnu.org/software/bison/manual/html_node/Contextual-Precedence.html

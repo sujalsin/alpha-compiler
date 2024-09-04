@@ -1,0 +1,34 @@
+The semantical analyzer for the compiler will be written using c code 
+that runs after each rule is determined in bison.
+
+the format is as follows:
+<rule>:
+  <rule> <IDENTIFIER>   {
+        struct symbol *sym = symbol_lookup(current_scope, $2);
+        if (sym == NULL) {
+            handle_error("undeclared identifier %s", $2);
+            $$ = error_node();
+            // potentially add to symbol table instead if this rule evaluates to a declaration
+        } else {
+            // potentially compute to make rule simpler if possible
+            // type check to make sure the identifier can be used here
+        }
+    }
+| <IDENTIFIER>          {
+        // more c code
+    }
+;
+c code taken from: https://stackoverflow.com/questions/15665828/how-to-make-semantic-check-using-flex-bison 
+
+Useful functions will include:
+    symbol_lookup / symbol_find to determine if a symbol was already created
+        uses current_scope and identifier 
+    symbol_register to add a symbol to the symbol table
+        uses current_scope, identifier name and number, identifier type
+    handle_error records and prints when an error occurs
+        uses either a string or an associated error type
+
+Other functionality will include:
+    keeping track of the current_scope based on the grammar rules found
+    keeping track of constant values and merging them when possible
+        i.e. x = 3 + 4; y = 1 + x; simplify to just y = 8
